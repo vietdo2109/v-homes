@@ -200,12 +200,12 @@ const PropertyForm = ({
               name="description"
               render={({ field }) => {
                 return (
-                  <FormItem className="flex flex-col flex-1 max-w-[100%]">
+                  <FormItem className="flex flex-col flex-1 max-w-[100%] max-h-[200px]">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
-                        className="resize-none h-[100%]"
+                        className="h-[100%] resize-none"
                         cols={20}
                       />
                     </FormControl>

@@ -120,3 +120,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+.markdown > h1 {
+  @apply text-5xl font-bold my-4;
+}
+
+.markdown > h2 {
+  @apply text-4xl font-bold my-4;
+}
+
+.markdown > h3 {
+  @apply text-3xl font-bold my-4;
+}
+
+.markdown > h4 {
+  @apply text-2xl font-bold my-4;
+}
+
+.markdown > h5 {
+  @apply text-xl font-bold my-4;
+}
+.markdown > h6 {
+  @apply text-lg font-bold my-4;
+}
+.markdown > p {
+  @apply my-4 font-normal text-base;
+}
+.markdown > ul {
+  @apply my-4 list-disc ml-4;
+}
+.markdown > ol {
+  @apply my-4 list-decimal ml-4;
+}
