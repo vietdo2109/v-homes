@@ -1,7 +1,8 @@
 import { Firestore } from "firebase-admin/firestore";
 import { getApps, ServiceAccount } from "firebase-admin/app";
-import admin, { initializeApp } from "firebase-admin";
+import admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
+import { Auth, getAuth } from "firebase-admin/auth";
 const serviceAccount = {
   type: "service_account",
   project_id: "v-homes-47400",
@@ -18,17 +19,36 @@ const serviceAccount = {
 };
 
 let firestore: Firestore;
-
+let auth: Auth;
 const currentApp = getApps();
 
 if (!currentApp.length) {
-  const app = initializeApp({
+  const app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as ServiceAccount),
   });
   firestore = getFirestore(app);
+  auth = getAuth(app);
 } else {
   const app = currentApp[0];
   firestore = getFirestore(app);
+  auth = getAuth(app);
 }
 
-export { firestore };
+export { firestore, auth };
+
+export const getTotalPages = async (
+  firestoreQuery: FirebaseFirestore.Query<
+    FirebaseFirestore.DocumentData,
+    FirebaseFirestore.DocumentData
+  >,
+  pageSize: number
+) => {
+  const queryCount = firestoreQuery.count();
+  const countSnapshot = await queryCount.get();
+  const countData = countSnapshot.data();
+  const total = countData.count;
+
+  const totalPages = Math.ceil(total / pageSize);
+
+  return totalPages;
+};

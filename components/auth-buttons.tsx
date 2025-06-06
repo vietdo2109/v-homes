@@ -12,10 +12,11 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const AuthButtons = () => {
   const auth = useAuth();
-
+  const router = useRouter();
   return (
     <div className="flex items-center">
       {!!auth?.currentUser && (
@@ -46,16 +47,29 @@ const AuthButtons = () => {
             <DropdownMenuItem asChild>
               <Link href="/account">My Account</Link>
             </DropdownMenuItem>
+            {!!auth.customClaims?.admin ? (
+              <>
+                <DropdownMenuSeparator></DropdownMenuSeparator>
+                <DropdownMenuItem asChild>
+                  <Link href="/admin-dashboard">Admin Dashboard</Link>
+                </DropdownMenuItem>
+              </>
+            ) : (
+              <>
+                <DropdownMenuSeparator></DropdownMenuSeparator>
+                <DropdownMenuItem asChild>
+                  <Link href="/account/favourites">My Favourite</Link>
+                </DropdownMenuItem>
+              </>
+            )}
+
             <DropdownMenuSeparator></DropdownMenuSeparator>
-            <DropdownMenuItem asChild>
-              <Link href="/admin-dashboard">Admin Dashboard</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator></DropdownMenuSeparator>
-            <DropdownMenuItem asChild>
-              <Link href="/account/favourites">My Favourite</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator></DropdownMenuSeparator>
-            <DropdownMenuItem onClick={async () => auth.logout()}>
+            <DropdownMenuItem
+              onClick={async () => {
+                await auth.logout();
+                router.refresh();
+              }}
+            >
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

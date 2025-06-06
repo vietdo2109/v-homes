@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AuthProvider } from "@/context/auth";
 import AuthButtons from "@/components/auth-buttons";
 import { HomeIcon } from "lucide-react";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,7 +33,7 @@ export default function RootLayout({
             >
               <HomeIcon />
 
-              <p className="mb-0.5">V Homes</p>
+              <p className="mb-0.5 font-[500]">V Homes</p>
             </Link>
             <ul className="flex gap-8 items-center">
               <li>
@@ -49,6 +50,7 @@ export default function RootLayout({
             </ul>
           </nav>
           {children}
+          <Toaster closeButton richColors={true} />
         </AuthProvider>
       </body>
     </html>
