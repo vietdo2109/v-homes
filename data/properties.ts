@@ -20,24 +20,24 @@ type GetPropertiesOptions = {
 export const getProperties = async (option?: GetPropertiesOptions) => {
   const page = option?.pagination?.page || 1;
   const pageSize = option?.pagination?.pageSize || 10;
-
   const { minPrice, maxPrice, minBedrooms, status } = option?.filters || {};
+  console.log({ minPrice, maxPrice, minBedrooms, status });
 
   let propertiesQuery = firestore
     .collection("properties")
     .orderBy("updatedAt", "desc");
 
   if (minPrice !== null && minPrice !== undefined) {
-    propertiesQuery.where("price", ">=", minPrice);
+    propertiesQuery = propertiesQuery.where("price", ">=", minPrice);
   }
   if (maxPrice !== null && maxPrice !== undefined) {
-    propertiesQuery.where("price", "<=", maxPrice);
+    propertiesQuery = propertiesQuery.where("price", "<=", maxPrice);
   }
   if (minBedrooms !== null && minBedrooms !== undefined) {
-    propertiesQuery.where("bedrooms", ">=", minBedrooms);
+    propertiesQuery = propertiesQuery.where("bedrooms", ">=", minBedrooms);
   }
   if (status !== null && status !== undefined) {
-    propertiesQuery.where("status", "in", status);
+    propertiesQuery = propertiesQuery.where("status", "in", status);
   }
 
   const totalPages = await getTotalPages(propertiesQuery, pageSize);
