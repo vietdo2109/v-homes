@@ -11,12 +11,20 @@ export async function middleware(req: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;
 
-  if (!token && req.nextUrl.pathname.startsWith("/login")) {
+  if (
+    !token &&
+    (req.nextUrl.pathname.startsWith("/login") ||
+      req.nextUrl.pathname.startsWith("/register"))
+  ) {
     return NextResponse.next();
   }
 
-  // Handle case: logged in user access login page
-  if (token && req.nextUrl.pathname.startsWith("/login")) {
+  // Handle case: logged in user access login/register page
+  if (
+    token &&
+    (req.nextUrl.pathname.startsWith("/login") ||
+      req.nextUrl.pathname.startsWith("/register"))
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
@@ -28,11 +36,28 @@ export async function middleware(req: NextRequest) {
   // Handle case: normal user try to access admin dashboard pages
   const decodedToken = decodeJwt(token);
 
+  // Check if the token will be expired winthin 5 minutes or not
+  if (decodedToken.exp && (decodedToken.exp - 55 * 60) * 1000 < Date.now()) {
+    return NextResponse.redirect(
+      new URL(
+        `/api/refresh-token?redirect=${encodeURIComponent(
+          req.nextUrl.pathname
+        )}`,
+        req.url
+      )
+    );
+  }
+
   if (!decodedToken.admin) {
     return NextResponse.redirect(new URL("/", req.url));
   } else return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin-dashboard", "/admin-dashboard/:path*", "/login"],
+  matcher: [
+    "/admin-dashboard",
+    "/admin-dashboard/:path*",
+    "/login",
+    "/register",
+  ],
 };

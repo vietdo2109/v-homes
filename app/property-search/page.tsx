@@ -28,7 +28,7 @@ const PropertySearchPage = async ({
   const { data, totalPages } = await getProperties({
     pagination: {
       page,
-      pageSize: 3,
+      pageSize: 6,
     },
     filters: {
       minPrice,

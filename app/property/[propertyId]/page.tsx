@@ -16,7 +16,6 @@ import { toImageURL } from "@/lib/utils";
 const PropertyPage = async ({ params }: { params: Promise<any> }) => {
   const paramsValue = await params;
   const property = await getPropertyById(paramsValue.propertyId);
-  console.log(property);
   const addressLine = [
     property.address1,
     property.address2,

@@ -21,7 +21,6 @@ export const getProperties = async (option?: GetPropertiesOptions) => {
   const page = option?.pagination?.page || 1;
   const pageSize = option?.pagination?.pageSize || 10;
   const { minPrice, maxPrice, minBedrooms, status } = option?.filters || {};
-  console.log({ minPrice, maxPrice, minBedrooms, status });
 
   let propertiesQuery = firestore
     .collection("properties")
