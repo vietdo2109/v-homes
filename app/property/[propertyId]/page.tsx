@@ -12,10 +12,10 @@ import Image from "next/image";
 import numeral from "numeral";
 import ReactMarkdown from "react-markdown";
 import BackButton from "./back-button";
+import { toImageURL } from "@/lib/utils";
 const PropertyPage = async ({ params }: { params: Promise<any> }) => {
   const paramsValue = await params;
   const property = await getPropertyById(paramsValue.propertyId);
-  console.log(property);
   const addressLine = [
     property.address1,
     property.address2,
@@ -34,9 +34,7 @@ const PropertyPage = async ({ params }: { params: Promise<any> }) => {
                     <div className="relative h-[80vh] min-h-80">
                       {" "}
                       <Image
-                        src={`https://firebasestorage.googleapis.com/v0/b/v-homes-47400.firebasestorage.app/o/${encodeURIComponent(
-                          image
-                        )}?alt=media`}
+                        src={toImageURL(image)}
                         alt={`image ${index + 1}`}
                         fill
                         className="object-cover"

@@ -31,7 +31,7 @@ const AuthButtons = () => {
                   height={70}
                 ></Image>
               )}
-              <AvatarFallback>
+              <AvatarFallback className="text-sky-950">
                 {(auth.currentUser.displayName || auth.currentUser.email)?.[0]}
               </AvatarFallback>
             </Avatar>
