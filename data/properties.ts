@@ -1,21 +1,7 @@
 import { firestore, getTotalPages } from "@/firebase/server";
+import { GetPropertiesOptions } from "@/types/getPropertiesOptions";
 import { Property } from "@/types/property";
-import { PropertyStatus } from "@/types/propertyStatus";
-import { pages } from "next/dist/build/templates/app-page";
 import "server-only";
-
-type GetPropertiesOptions = {
-  filters?: {
-    minPrice?: number | null;
-    maxPrice?: number | null;
-    minBedrooms?: number | null;
-    status?: PropertyStatus[] | null;
-  };
-  pagination?: {
-    pageSize?: number;
-    page?: number;
-  };
-};
 
 export const getProperties = async (option?: GetPropertiesOptions) => {
   const page = option?.pagination?.page || 1;

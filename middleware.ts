@@ -14,7 +14,8 @@ export async function middleware(req: NextRequest) {
   if (
     !token &&
     (req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/register"))
+      req.nextUrl.pathname.startsWith("/register") ||
+      req.nextUrl.pathname.startsWith("/property-search"))
   ) {
     return NextResponse.next();
   }
@@ -48,9 +49,20 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (!decodedToken.admin) {
+  if (
+    !decodedToken.admin &&
+    req.nextUrl.pathname.startsWith("/admin-dashboard")
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
-  } else return NextResponse.next();
+  }
+
+  if (
+    decodedToken.admin &&
+    req.nextUrl.pathname.startsWith("/account/favourites")
+  ) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  return NextResponse.next();
 }
 
 export const config = {
@@ -59,5 +71,8 @@ export const config = {
     "/admin-dashboard/:path*",
     "/login",
     "/register",
+    "/account",
+    "/account/favourites",
+    "/property-search",
   ],
 };
