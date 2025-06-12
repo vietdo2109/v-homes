@@ -1,9 +1,7 @@
-import { Breadcrumb, Breadcrumbs } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPropertyById } from "@/data/properties";
-import Link from "next/link";
-import NewPropertyForm from "../../new/new-property-form";
+
 import EditPropertyForm from "./edit-property-form";
 
 const EditProperty = async ({ params }: { params: Promise<any> }) => {

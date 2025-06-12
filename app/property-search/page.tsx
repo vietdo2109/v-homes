@@ -8,13 +8,18 @@ import { BathIcon, BedIcon, HomeIcon } from "lucide-react";
 import numeral from "numeral";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ToggleFavouriteButton from "./toggle-favourite-button";
+import { getUserFavorites } from "@/data/favourites";
+import { cookies } from "next/headers";
+import { auth } from "@/firebase/server";
+import { DecodedIdToken } from "firebase-admin/auth";
+
 const PropertySearchPage = async ({
   searchParams,
 }: {
   searchParams: Promise<any>;
 }) => {
   const searchParamsValue = await searchParams;
-
   const parsedPage = parseInt(searchParamsValue?.page);
   const parsedMinPrice = parseInt(searchParamsValue?.minPrice);
   const parsedMaxPrice = parseInt(searchParamsValue?.maxPrice);
@@ -38,6 +43,14 @@ const PropertySearchPage = async ({
     },
   });
 
+  const favourites = await getUserFavorites();
+  const cookieStore = await cookies();
+
+  const token = cookieStore.get("firebaseAuthToken")?.value;
+  let verifiedToken: DecodedIdToken | null;
+  if (token) {
+    verifiedToken = await auth.verifyIdToken(token);
+  }
   return (
     <div className="flex justify-center items-center flex-col max-w-screen  mb-[40px]">
       <div className="flex flex-col max-w-[1000px] min-w-[800px] py-5">
@@ -81,6 +94,12 @@ const PropertySearchPage = async ({
                         <HomeIcon />
                         <small>No Image</small>
                       </>
+                    )}
+                    {(!verifiedToken || !verifiedToken.admin) && (
+                      <ToggleFavouriteButton
+                        propertyId={property.id}
+                        isFavourite={favourites[property.id] || false}
+                      />
                     )}
                   </div>
                   <div className="w-full p-3 flex flex-col gap-3 flex-1">
