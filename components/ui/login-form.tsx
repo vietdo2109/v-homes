@@ -39,14 +39,7 @@ const LoginFormComp = ({ onSuccess }: { onSuccess: () => void }) => {
       await auth?.loginWithEmail(data.email, data.password);
       onSuccess();
     } catch (e: any) {
-      if (e.code === "auth/invalid-credential") {
-        form.setError("email", {
-          message: "",
-        });
-        form.setError("password", {
-          message: "",
-        });
-      }
+      console.log(e);
       toast.error("Error!", {
         description:
           e.code === "auth/invalid-credential"
@@ -98,10 +91,7 @@ const LoginFormComp = ({ onSuccess }: { onSuccess: () => void }) => {
             <Button type="submit">login</Button>
             <p className="text-zinc-700 font-medium">
               Forgotten your password?{" "}
-              <Link
-                href="/forgot-password"
-                className="hover:underline text-sky-900"
-              >
+              <Link href="/register" className="hover:underline text-sky-900">
                 Reset it here
               </Link>
             </p>
