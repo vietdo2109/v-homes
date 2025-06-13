@@ -11,18 +11,17 @@ export const passwordValidation = z.string().refine(
   }
 );
 
-export const registerSchema = z
+export const updatePasswordSchema = z
   .object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email(),
-    password: passwordValidation,
-    confirmPassword: z.string(),
+    currentPassword: passwordValidation,
+    newPassword: passwordValidation,
+    confirmNewPassword: z.string(),
   })
   .superRefine((data, context) => {
-    if (data.confirmPassword !== data.password) {
+    if (data.newPassword !== data.confirmNewPassword) {
       context.addIssue({
         message: "passwords must match",
-        path: ["confirmPassword"],
+        path: ["confirmNewPassword"],
         code: "custom",
       });
     }
