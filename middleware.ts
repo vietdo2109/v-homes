@@ -11,11 +11,13 @@ export async function middleware(req: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;
 
+  const { pathname } = req.nextUrl;
   if (
     !token &&
-    (req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/register") ||
-      req.nextUrl.pathname.startsWith("/property-search"))
+    (pathname.startsWith("/login") ||
+      pathname.startsWith("/register") ||
+      pathname.startsWith("/property-search") ||
+      pathname.startsWith("/forgot-password"))
   ) {
     return NextResponse.next();
   }
@@ -23,8 +25,9 @@ export async function middleware(req: NextRequest) {
   // Handle case: logged in user access login/register page
   if (
     token &&
-    (req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/register"))
+    (pathname.startsWith("/login") ||
+      pathname.startsWith("/register") ||
+      pathname.startsWith("/forgot-password"))
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -49,17 +52,11 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (
-    !decodedToken.admin &&
-    req.nextUrl.pathname.startsWith("/admin-dashboard")
-  ) {
+  if (!decodedToken.admin && pathname.startsWith("/admin-dashboard")) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (
-    decodedToken.admin &&
-    req.nextUrl.pathname.startsWith("/account/favourites")
-  ) {
+  if (decodedToken.admin && pathname.startsWith("/account/favourites")) {
     return NextResponse.redirect(new URL("/", req.url));
   }
   return NextResponse.next();
@@ -74,5 +71,6 @@ export const config = {
     "/account",
     "/account/favourites",
     "/property-search",
+    "/forgot-password",
   ],
 };
