@@ -7,7 +7,7 @@ export const passwordValidation = z.string().refine(
   },
   {
     message:
-      "Password must be at least 6 character-long, and contains at least 1 uppercase letter, 1 lowercase letter, 1 number, and a special chatacter.",
+      "Message must be at least 6 character-long, and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and a special chatacter.",
   }
 );
 
