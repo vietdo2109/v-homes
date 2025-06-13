@@ -31,10 +31,13 @@ export const getUserFavoriteProperties = async (
 ) => {
   const page = option?.pagination?.page || 1;
   const pageSize = option?.pagination?.pageSize || 10;
-  const { minPrice, maxPrice, minBedrooms, status } = option?.filters || {};
-
   const favourites = await getUserFavorites();
   const favouritePropertyIds = Object.keys(favourites);
+
+  if (favouritePropertyIds.length === 0) {
+    return { data: null, totalPages: 0 };
+  }
+
   let propertiesQuery = firestore
     .collection("properties")
     .orderBy("updatedAt", "desc");
