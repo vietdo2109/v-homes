@@ -13,6 +13,19 @@ import numeral from "numeral";
 import ReactMarkdown from "react-markdown";
 import BackButton from "./back-button";
 import { toImageURL } from "@/lib/utils";
+
+export const dynamic = "force-static"; // enable caching on property page
+
+/* 
+User A visits /property/1234 the first time 
+=> dynamically query on the firestore database for the data if there is no data on the cache
+=> cache this data for this page on Vercel
+=> any other user visiting /property/1234 will get the cached data, not query again
+
+case: when property/1234 data got updated => invalidate the data so the next visit will then 
+query the new data and invalidate the cache (go to admin/edit/[propertyId])
+*/
+
 const PropertyPage = async ({ params }: { params: Promise<any> }) => {
   const paramsValue = await params;
   const property = await getPropertyById(paramsValue.propertyId);
