@@ -14,5 +14,7 @@ export const deleteUserFavourites = async () => {
   try {
     const decodedToken = await auth.verifyIdToken(token);
     await firestore.collection("favourites").doc(decodedToken.uid).delete();
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
 };

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPropertyById } from "@/data/properties";
 
 import EditPropertyForm from "./edit-property-form";
+import DeletePropertyButton from "./delete-property-button";
 
 const EditProperty = async ({ params }: { params: Promise<any> }) => {
   const paramsValue = await params;
@@ -21,8 +22,12 @@ const EditProperty = async ({ params }: { params: Promise<any> }) => {
         ]}
       />
       <Card className="w-full  mt-3">
-        <CardHeader>
+        <CardHeader className="flex justify-between">
           <CardTitle className="text-3xl font-bold">Edit Property</CardTitle>
+          <DeletePropertyButton
+            propertyId={property.id}
+            imagePaths={property.images || []}
+          />
         </CardHeader>
         <CardContent>
           <EditPropertyForm

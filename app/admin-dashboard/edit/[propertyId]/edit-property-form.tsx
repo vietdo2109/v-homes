@@ -3,10 +3,7 @@
 import PropertyForm from "@/components/property-form";
 import { auth, storage } from "@/firebase/client";
 import { Property } from "@/types/property";
-import {
-  propertyDataSchema,
-  propertySchema,
-} from "@/validation/propertySchema";
+import { propertySchema } from "@/validation/propertySchema";
 import { SaveIcon } from "lucide-react";
 import { z } from "zod";
 import { updateProperty } from "./actions";

@@ -111,7 +111,7 @@ const LoginFormComp = ({ onSuccess }: { onSuccess: () => void }) => {
       <p className="text-zinc-700 font-medium text-center">OR</p>
       <ContinueWithGoogleButton />
       <p className="text-zinc-700 font-medium text-center">
-        Don't have an account?{" "}
+        Do not have an account?{" "}
         <Link href="/register" className="hover:underline text-sky-900 ">
           Register one here
         </Link>
