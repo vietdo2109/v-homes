@@ -1,9 +1,6 @@
 "use client";
 
-import { GoogleAuthProvider } from "firebase/auth";
 import { Button } from "./ui/button";
-import { signInWithPopup } from "firebase/auth";
-import { auth } from "@/firebase/client";
 import { useAuth } from "@/context/auth";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +15,9 @@ const ContinueWithGoogleButton = () => {
         try {
           await auth?.loginWithGoogle();
           router.refresh();
-        } catch (e) {}
+        } catch (e) {
+          console.log(e);
+        }
       }}
     >
       Continue with Google

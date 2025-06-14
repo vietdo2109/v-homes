@@ -24,6 +24,7 @@ const AccountPage = async () => {
   try {
     decodedToken = await auth.verifyIdToken(token);
   } catch (e) {
+    console.log(e);
     redirect("/");
   }
 

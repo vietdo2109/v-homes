@@ -1,6 +1,5 @@
 "use server";
 
-import { PropertyStatus } from "@/types/propertyStatus";
 import { auth, firestore } from "@/firebase/server";
 import { propertyDataSchema } from "@/validation/propertySchema";
 import { Property } from "@/types/property";
@@ -34,4 +33,16 @@ export const updateProperty = async (data: Property, authToken: string) => {
 
   // invalidate cache
   revalidatePath(`/property/${id}`);
+};
+
+export const deleteProperty = async (propertyId: string, authToken: string) => {
+  const verifiedToken = await auth.verifyIdToken(authToken);
+  if (!verifiedToken.admin) {
+    return {
+      error: true,
+      message: "Unauthorized",
+    };
+  }
+
+  await firestore.collection("properties").doc(propertyId).delete();
 };

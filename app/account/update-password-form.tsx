@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { auth } from "@/firebase/client";
-import { passwordValidation } from "@/validation/registerSchema";
 import { updatePasswordSchema } from "@/validation/updatePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
